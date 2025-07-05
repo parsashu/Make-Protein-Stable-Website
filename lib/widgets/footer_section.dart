@@ -27,6 +27,16 @@ class FooterSection extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
+          SizedBox(height: 24),
+          Text(
+            'Contact: a.zshahidi91@gmail.com',
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );

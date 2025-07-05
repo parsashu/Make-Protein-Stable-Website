@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'results_widget.dart';
 
 class ToolSection extends StatelessWidget {
   final TextEditingController sequenceController;
@@ -21,7 +22,7 @@ class ToolSection extends StatelessWidget {
           ),
           const SizedBox(height: 40),
           Container(
-            constraints: const BoxConstraints(maxWidth: 800),
+            constraints: const BoxConstraints(maxWidth: 1000),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -39,10 +40,10 @@ class ToolSection extends StatelessWidget {
                   ),
                   child: TextField(
                     controller: sequenceController,
-                    maxLines: 8,
+                    maxLines: 6,
                     decoration: const InputDecoration(
                       hintText:
-                          'Paste your protein sequence here (FASTA format or plain sequence)...\n\nExample:\nMKTVRQLLQEHLTQAVKELGIRVANGEELSVKELKKTGDRLTGRELLLAGIKELGIRVANGEELSVKELKKTGDRLTGRELLLAGIKELGIRVANGEELSVKELKKTGDRLTGRELLLAGIKELGIRVANGEELSVKELKKTGDRLTGRELLLAGI',
+                          'Paste your protein sequence here (FASTA format or plain sequence)...\n\nExample:\nMGDVEKGKKIFVQKCAQCETVEKGGKHKTGPNLHGLFGRKTGQAPGFTYTDANKNKGITWKEETLMEYLENPKKYIPGTKMIFAGIKKKTEREDLIAYLKKATNE',
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.all(20),
                     ),
@@ -66,6 +67,9 @@ class ToolSection extends StatelessWidget {
                     child: const Text('Analyze Sequence'),
                   ),
                 ),
+
+                // Results Widget
+                const ResultsWidget(),
               ],
             ),
           ),

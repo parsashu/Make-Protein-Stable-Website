@@ -15,6 +15,7 @@ class ProteinStabilityApp extends StatelessWidget {
       title: 'Make Protein Stable',
       theme: AppTheme.lightTheme,
       home: const ProteinStabilityHomePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

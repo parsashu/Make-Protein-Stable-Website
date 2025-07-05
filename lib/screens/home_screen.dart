@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../widgets/hero_section.dart';
 import '../widgets/about_section.dart';
 import '../widgets/tool_section.dart';
-import '../widgets/examples_section.dart';
 import '../widgets/footer_section.dart';
 
 class ProteinStabilityHomePage extends StatefulWidget {
@@ -39,9 +38,6 @@ class _ProteinStabilityHomePageState extends State<ProteinStabilityHomePage> {
 
             // Tool Section
             ToolSection(sequenceController: _sequenceController),
-
-            // Examples Section
-            const ExamplesSection(),
 
             // Footer
             const FooterSection(),

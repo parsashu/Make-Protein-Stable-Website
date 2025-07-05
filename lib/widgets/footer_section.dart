@@ -27,14 +27,6 @@ class FooterSection extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 24),
-          Text(
-            '© 2024 Make Protein Stable. All rights reserved.',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.white60,
-            ),
-          ),
         ],
       ),
     );

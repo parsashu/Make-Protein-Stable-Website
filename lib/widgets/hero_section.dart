@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../painters/protein_pattern_painter.dart';
+import 'protein_3d_structure.dart';
 
 class HeroSection extends StatelessWidget {
   final ScrollController scrollController;
@@ -12,7 +13,7 @@ class HeroSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 600,
+      height: 700,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -38,6 +39,13 @@ class HeroSection extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // 3D Protein Structure
+                const Protein3DStructure(
+                  size: 150,
+                  color: Colors.white,
+                ),
+                const SizedBox(height: 32),
+
                 Text(
                   'Make Protein Stable',
                   style: Theme.of(context).textTheme.headlineLarge,
@@ -57,7 +65,7 @@ class HeroSection extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     scrollController.animateTo(
-                      800,
+                      900,
                       duration: const Duration(seconds: 1),
                       curve: Curves.easeInOut,
                     );

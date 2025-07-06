@@ -1,13 +1,81 @@
 import 'package:flutter/material.dart';
 import 'results_widget.dart';
+import '../services/api_service.dart';
+import '../models/protein_improvement_result.dart';
 
-class ToolSection extends StatelessWidget {
+class ToolSection extends StatefulWidget {
   final TextEditingController sequenceController;
 
   const ToolSection({
     super.key,
     required this.sequenceController,
   });
+
+  @override
+  State<ToolSection> createState() => _ToolSectionState();
+}
+
+class _ToolSectionState extends State<ToolSection> {
+  bool _isLoading = false;
+  ProteinImprovementResult? _result;
+
+  Future<void> _improveSequence() async {
+    if (widget.sequenceController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter a protein sequence'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+      _result = null;
+    });
+
+    try {
+      final response = await ApiService.improveProteinStability(
+        proteinSequence: widget.sequenceController.text.trim(),
+      );
+
+      if (response != null) {
+        final result = ProteinImprovementResult.fromJson(response);
+        setState(() {
+          _result = result;
+        });
+
+        if (result.success) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Protein sequence improved successfully!'),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+                'Failed to connect to the API. Please make sure the server is running.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +108,7 @@ class ToolSection extends StatelessWidget {
                     border: Border.all(color: Colors.grey[300]!),
                   ),
                   child: TextField(
-                    controller: sequenceController,
+                    controller: widget.sequenceController,
                     maxLines: 6,
                     decoration: InputDecoration(
                       hintText:
@@ -62,20 +130,24 @@ class ToolSection extends StatelessWidget {
                 const SizedBox(height: 24),
                 Center(
                   child: ElevatedButton(
-                    onPressed: () {
-                      // TODO: Implement sequence improvement
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Improvement feature coming soon!'),
-                        ),
-                      );
-                    },
-                    child: const Text('Improve Sequence'),
+                    onPressed: _isLoading ? null : _improveSequence,
+                    child: _isLoading
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : const Text('Improve Sequence'),
                   ),
                 ),
 
                 // Results Widget
-                const ResultsWidget(),
+                ResultsWidget(
+                  result: _result,
+                  isLoading: _isLoading,
+                ),
               ],
             ),
           ),

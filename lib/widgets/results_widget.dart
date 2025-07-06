@@ -1,10 +1,94 @@
 import 'package:flutter/material.dart';
+import '../models/protein_improvement_result.dart';
 
 class ResultsWidget extends StatelessWidget {
-  const ResultsWidget({super.key});
+  final ProteinImprovementResult? result;
+  final bool isLoading;
+
+  const ResultsWidget({
+    super.key,
+    this.result,
+    this.isLoading = false,
+  });
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return Container(
+        margin: const EdgeInsets.only(top: 24),
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Colors.blue[50],
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: Colors.blue[200]!,
+            width: 2,
+          ),
+        ),
+        child: Column(
+          children: [
+            const CircularProgressIndicator(),
+            const SizedBox(height: 16),
+            Text(
+              'Analyzing protein sequence...',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.blue[800],
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (result == null) {
+      return const SizedBox.shrink();
+    }
+
+    if (!result!.success) {
+      return Container(
+        margin: const EdgeInsets.only(top: 24),
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Colors.red[50],
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: Colors.red[200]!,
+            width: 2,
+          ),
+        ),
+        child: Column(
+          children: [
+            Icon(
+              Icons.error,
+              color: Colors.red[700],
+              size: 48,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Error',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.red[800],
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              result!.error ?? 'Unknown error occurred',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.red[700],
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      );
+    }
+
+    final data = result!.data!;
     return Container(
       margin: const EdgeInsets.only(top: 24),
       padding: const EdgeInsets.all(24),
@@ -58,19 +142,19 @@ class ResultsWidget extends StatelessWidget {
                   children: [
                     _buildResultItem(
                       'Changed Position',
-                      '19',
+                      '${data.changedPosition}',
                       Colors.green[600]!,
                     ),
                     const SizedBox(height: 16),
                     _buildResultItem(
                       'Original Amino Acid',
-                      'H (Histidine)',
+                      data.originalAminoAcid,
                       Colors.green[600]!,
                     ),
                     const SizedBox(height: 16),
                     _buildResultItem(
                       'Changed Amino Acid',
-                      'E (Glutamate)',
+                      data.changedAminoAcid,
                       Colors.green[600]!,
                     ),
                   ],
@@ -86,13 +170,13 @@ class ResultsWidget extends StatelessWidget {
                   children: [
                     _buildResultItem(
                       'Stability Change (ΔTm)',
-                      '+10.84°C',
+                      '${data.tmChange > 0 ? '+' : ''}${data.tmChange.toStringAsFixed(2)}°C',
                       Colors.green[700]!,
                     ),
                     const SizedBox(height: 16),
                     _buildResultItem(
                       'Status',
-                      'Improved',
+                      data.status,
                       Colors.green[700]!,
                     ),
                     const SizedBox(height: 16),
@@ -156,15 +240,16 @@ class ResultsWidget extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'MGDVEKGKKIFVQKCAQCETGPNLHGLFGRKTGQAPGFTYTDANKNKGITWKEETLMEYLENPKKYIPGTKMIFAGIKKKTEREDLIAYLKKATNE',
-                      style: TextStyle(
-                        fontFamily: 'Courier',
-                        fontSize: 12,
-                        color: Colors.black87,
-                        height: 1.5,
+                    if (data.optimizedSequence.isNotEmpty)
+                      Text(
+                        data.optimizedSequence,
+                        style: const TextStyle(
+                          fontFamily: 'Courier',
+                          fontSize: 12,
+                          color: Colors.black87,
+                          height: 1.5,
+                        ),
                       ),
-                    ),
                     const SizedBox(height: 8),
                     RichText(
                       text: TextSpan(
@@ -174,9 +259,9 @@ class ResultsWidget extends StatelessWidget {
                           color: Colors.black54,
                         ),
                         children: [
-                          const TextSpan(text: 'Position 19: '),
+                          TextSpan(text: 'Position ${data.changedPosition}: '),
                           TextSpan(
-                            text: 'H',
+                            text: data.originalAminoAcid,
                             style: TextStyle(
                               color: Colors.red[600],
                               fontWeight: FontWeight.bold,
@@ -184,7 +269,7 @@ class ResultsWidget extends StatelessWidget {
                           ),
                           const TextSpan(text: ' → '),
                           TextSpan(
-                            text: 'E',
+                            text: data.changedAminoAcid,
                             style: TextStyle(
                               color: Colors.green[600],
                               fontWeight: FontWeight.bold,

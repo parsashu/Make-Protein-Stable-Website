@@ -27,6 +27,7 @@ class _ProteinStabilityHomePageState extends State<ProteinStabilityHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         controller: _scrollController,
         child: Column(

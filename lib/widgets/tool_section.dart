@@ -13,6 +13,7 @@ class ToolSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(80),
+      color: Colors.grey[50],
       child: Column(
         children: [
           Text(

@@ -38,7 +38,7 @@ class AboutSection extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      '• Input your protein sequence\n• AI analyzes stability patterns\n• Suggests single amino acid changes\n• Maintains 3D structural integrity\n• Provides stability improvements',
+                      '• Input your protein sequence\n• AI generates and evaluates single-point variants\n• Uses biological constraints (BLOSUM & hydrophobicity)\n• Ranks variants based on predicted thermal stability (Tm)\n• Suggests the most stable version for structural integrity',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ],

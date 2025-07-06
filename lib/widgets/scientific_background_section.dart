@@ -44,8 +44,8 @@ class ScientificBackgroundSection extends StatelessWidget {
                     Expanded(
                       child: _buildResearchCard(
                         Icons.psychology,
-                        'Machine Learning',
-                        'Advanced neural networks trained on protein stability data',
+                        'Original Custom-Trained Model',
+                        'Developed from scratch and fine-tuned on curated datasets.',
                         const Color(0xFF1a237e),
                       ),
                     ),
@@ -53,8 +53,8 @@ class ScientificBackgroundSection extends StatelessWidget {
                     Expanded(
                       child: _buildResearchCard(
                         Icons.science,
-                        'Validated Results',
-                        'Scientifically validated through rigorous testing protocols',
+                        'Whith no Structural Disruption',
+                        'Designed to enhance thermal stability through point mutations while preserving the original protein’s functionality and 3D structure.',
                         const Color(0xFF3949ab),
                       ),
                     ),

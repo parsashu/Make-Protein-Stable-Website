@@ -19,6 +19,20 @@ class _ToolSectionState extends State<ToolSection> {
   bool _isLoading = false;
   ProteinImprovementResult? _result;
 
+  // Default example result to show before user submits
+  ProteinImprovementResult get _defaultResult => ProteinImprovementResult(
+        success: true,
+        data: ProteinData(
+          changedPosition: 1,
+          originalAminoAcid: 'M',
+          changedAminoAcid: 'F',
+          tmChange: 12.08,
+          optimizedSequence:
+              'FGDVEKGKKIFVQKCAQCHTVEKGGKHKTGPNLHGLFGRKTGQAPGFTYTDANKNKGITWKEETLMEYLENPKKYIPGTKMIFAGIKKKTEREDLIAYLKKATNE',
+          status: 'Improved',
+        ),
+      );
+
   Future<void> _improveSequence() async {
     if (widget.sequenceController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -143,9 +157,9 @@ class _ToolSectionState extends State<ToolSection> {
                   ),
                 ),
 
-                // Results Widget
+                // Results Widget - Show default example when no real result exists
                 ResultsWidget(
-                  result: _result,
+                  result: _result ?? _defaultResult,
                   isLoading: _isLoading,
                 ),
               ],

@@ -263,7 +263,7 @@ class ResultsWidget extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            TextSpan(text: ' → '),
+                            const TextSpan(text: ' → '),
                             TextSpan(
                               text: data.changedAminoAcid,
                               style: TextStyle(

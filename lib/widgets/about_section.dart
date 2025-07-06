@@ -245,8 +245,8 @@ class AboutSection extends StatelessWidget {
               // Right side image
               Expanded(
                 flex: 2,
-                child: FittedBox(
-                  fit: BoxFit.contain,
+                child: AspectRatio(
+                  aspectRatio: 1.0, // Square aspect ratio
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
@@ -270,30 +270,15 @@ class AboutSection extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(25),
-                      child: Stack(
-                        children: [
-                          RotatedBox(
-                            quarterTurns: 3,
-                            child: Image.asset(
-                              'assets/images/image.png',
-                            ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: RotatedBox(
+                          quarterTurns: 3,
+                          child: Image.asset(
+                            'assets/images/image.png',
+                            fit: BoxFit.contain,
                           ),
-                          // Overlay gradient
-                          Positioned.fill(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [
-                                    Colors.transparent,
-                                    const Color(0xFF1a237e).withOpacity(0.2),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),

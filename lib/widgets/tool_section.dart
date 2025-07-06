@@ -16,7 +16,7 @@ class ToolSection extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'Analyze Your Protein',
+            'Improve Your Protein',
             style: Theme.of(context).textTheme.headlineMedium,
             textAlign: TextAlign.center,
           ),
@@ -41,11 +41,16 @@ class ToolSection extends StatelessWidget {
                   child: TextField(
                     controller: sequenceController,
                     maxLines: 6,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       hintText:
-                          'Paste your protein sequence here (FASTA format or plain sequence)...\n\nExample:\nMGDVEKGKKIFVQKCAQCETVEKGGKHKTGPNLHGLFGRKTGQAPGFTYTDANKNKGITWKEETLMEYLENPKKYIPGTKMIFAGIKKKTEREDLIAYLKKATNE',
+                          'Enter your protein sequences here...\n\n\n\nExample:\nMGDVEKGKKIFVQKCAQCHTVEKGGKHKTGPNLHGLFGRKTGQAPGFTYTDANKNKGITWKEETLMEYLENPKKYIPGTKMIFAGIKKKTEREDLIAYLKKATNE',
+                      hintStyle: TextStyle(
+                        color: Colors.grey[500],
+                        fontFamily: 'Courier',
+                        fontSize: 14,
+                      ),
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.all(20),
+                      contentPadding: const EdgeInsets.all(20),
                     ),
                     style: const TextStyle(
                       fontFamily: 'Courier',
@@ -57,14 +62,14 @@ class ToolSection extends StatelessWidget {
                 Center(
                   child: ElevatedButton(
                     onPressed: () {
-                      // TODO: Implement sequence analysis
+                      // TODO: Implement sequence improvement
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Analysis feature coming soon!'),
+                          content: Text('Improvement feature coming soon!'),
                         ),
                       );
                     },
-                    child: const Text('Analyze Sequence'),
+                    child: const Text('Improve Sequence'),
                   ),
                 ),
 

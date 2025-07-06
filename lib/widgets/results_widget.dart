@@ -36,7 +36,7 @@ class ResultsWidget extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               Text(
-                'Analysis Results',
+                'Improvement Results',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,

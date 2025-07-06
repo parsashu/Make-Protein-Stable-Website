@@ -17,9 +17,11 @@ class AboutSection extends StatelessWidget {
           ),
           const SizedBox(height: 40),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Description
               Expanded(
+                flex: 3,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -45,10 +47,10 @@ class AboutSection extends StatelessWidget {
 
               const SizedBox(width: 60),
 
-              // Microscope representation
+              // Image representation
               Expanded(
+                flex: 2,
                 child: Container(
-                  height: 400,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     gradient: const LinearGradient(
@@ -68,8 +70,16 @@ class AboutSection extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: CustomPaint(
-                    painter: MicroscopePainter(),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: RotatedBox(
+                      quarterTurns: 3,
+                      child: Image.asset(
+                        'assets/images/image.png',
+                        fit: BoxFit.contain,
+                        scale: 0.8,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -79,110 +89,4 @@ class AboutSection extends StatelessWidget {
       ),
     );
   }
-}
-
-class MicroscopePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()..style = PaintingStyle.fill;
-
-    final center = Offset(size.width / 2, size.height / 2);
-
-    // Microscope base
-    paint.color = Colors.grey[300]!;
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromCenter(
-          center: Offset(center.dx, size.height - 40),
-          width: 120,
-          height: 20,
-        ),
-        const Radius.circular(10),
-      ),
-      paint,
-    );
-
-    // Microscope body
-    paint.color = Colors.grey[600]!;
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromCenter(
-          center: Offset(center.dx, center.dy + 60),
-          width: 80,
-          height: 180,
-        ),
-        const Radius.circular(8),
-      ),
-      paint,
-    );
-
-    // Microscope head
-    paint.color = Colors.grey[700]!;
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromCenter(
-          center: Offset(center.dx, center.dy - 40),
-          width: 100,
-          height: 80,
-        ),
-        const Radius.circular(10),
-      ),
-      paint,
-    );
-
-    // Eyepiece
-    paint.color = Colors.black;
-    canvas.drawCircle(
-      Offset(center.dx, center.dy - 70),
-      15,
-      paint,
-    );
-
-    // Objective lens
-    paint.color = Colors.grey[800]!;
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromCenter(
-          center: Offset(center.dx, center.dy + 120),
-          width: 25,
-          height: 40,
-        ),
-        const Radius.circular(5),
-      ),
-      paint,
-    );
-
-    // Stage
-    paint.color = Colors.grey[400]!;
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromCenter(
-          center: Offset(center.dx, center.dy + 80),
-          width: 90,
-          height: 15,
-        ),
-        const Radius.circular(5),
-      ),
-      paint,
-    );
-
-    // Protein sample on stage
-    paint.color = const Color(0xFF4CAF50);
-    canvas.drawCircle(
-      Offset(center.dx, center.dy + 80),
-      8,
-      paint,
-    );
-
-    // Light source
-    paint.color = Colors.yellow[300]!;
-    canvas.drawCircle(
-      Offset(center.dx, center.dy + 180),
-      12,
-      paint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

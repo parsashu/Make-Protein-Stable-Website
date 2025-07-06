@@ -219,7 +219,7 @@ class ResultsWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Optimized Sequence',
+                'Final Optimized Sequence',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -240,39 +240,73 @@ class ResultsWidget extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (data.optimizedSequence.isNotEmpty)
-                      Text(
-                        data.optimizedSequence,
-                        style: const TextStyle(
-                          fontFamily: 'Courier',
-                          fontSize: 12,
-                          color: Colors.black87,
-                          height: 1.5,
+                    // Mutation details
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.green[50],
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: RichText(
+                        text: TextSpan(
+                          style: const TextStyle(
+                            fontFamily: 'Courier',
+                            fontSize: 12,
+                            color: Colors.black54,
+                          ),
+                          children: [
+                            const TextSpan(text: 'Mutation: '),
+                            TextSpan(
+                              text: data.originalAminoAcid,
+                              style: TextStyle(
+                                color: Colors.red[600],
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            TextSpan(text: ' → '),
+                            TextSpan(
+                              text: data.changedAminoAcid,
+                              style: TextStyle(
+                                color: Colors.green[600],
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    const SizedBox(height: 8),
-                    RichText(
-                      text: TextSpan(
-                        style: const TextStyle(
-                          fontFamily: 'Courier',
-                          fontSize: 12,
-                          color: Colors.black54,
+                    ),
+                    const SizedBox(height: 12),
+                    // Final sequence
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[50],
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(
+                          color: Colors.grey[300]!,
+                          width: 1,
                         ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TextSpan(text: 'Position ${data.changedPosition}: '),
-                          TextSpan(
-                            text: data.originalAminoAcid,
+                          Text(
+                            'Final Sequence:',
                             style: TextStyle(
-                              color: Colors.red[600],
-                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey[700],
                             ),
                           ),
-                          const TextSpan(text: ' → '),
-                          TextSpan(
-                            text: data.changedAminoAcid,
-                            style: TextStyle(
-                              color: Colors.green[600],
-                              fontWeight: FontWeight.bold,
+                          const SizedBox(height: 8),
+                          SelectableText(
+                            data.optimizedSequence,
+                            style: const TextStyle(
+                              fontFamily: 'Courier',
+                              fontSize: 12,
+                              color: Colors.black87,
+                              height: 1.5,
                             ),
                           ),
                         ],

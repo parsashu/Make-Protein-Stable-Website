@@ -41,7 +41,7 @@ class ProteinData {
       originalAminoAcid: json['original_amino_acid'] ?? '',
       changedAminoAcid: json['changed_amino_acid'] ?? '',
       tmChange: (json['tm_change'] ?? 0.0).toDouble(),
-      optimizedSequence: json['optimized_sequence'] ?? '',
+      optimizedSequence: json['best_sequence'] ?? '',
       status: json['status'] ?? 'Improved',
     );
   }

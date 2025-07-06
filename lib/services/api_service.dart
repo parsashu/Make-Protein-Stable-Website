@@ -6,10 +6,10 @@ class ApiService {
 
   static Future<Map<String, dynamic>?> improveProteinStability({
     required String proteinSequence,
-    double asa = 9.0,
-    double ph = 6.0,
+    double asa = -1,
+    double ph = 7.0,
     double tm = 80.4,
-    int coil = 1,
+    int coil = 0,
     int helix = 0,
     int sheet = 0,
     int turn = 0,

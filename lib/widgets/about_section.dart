@@ -41,6 +41,59 @@ class AboutSection extends StatelessWidget {
                       '• Input your protein sequence\n• AI generates and evaluates single-point variants\n• Uses biological constraints (BLOSUM & hydrophobicity)\n• Ranks variants based on predicted thermal stability (Tm)\n• Suggests the most stable version for structural integrity',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
+                    const SizedBox(height: 32),
+                    // Performance metric
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: const Color(0xFF3949ab).withOpacity(0.2),
+                          width: 1,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF3949ab).withOpacity(0.1),
+                            spreadRadius: 2,
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.analytics_rounded,
+                            color: Color(0xFF3949ab),
+                            size: 32,
+                          ),
+                          const SizedBox(width: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Model Performance',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF3949ab),
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                'Spearman\'s Coefficient: 0.7232',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey[700],
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),

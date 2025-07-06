@@ -26,7 +26,7 @@ class AboutSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Our AI-powered tool analyzes your protein sequence and enhances stability by intelligently changing just one amino acid at a time while preserving the original 3D structure.',
+                      'Our AI-powered tool analyzes your protein sequence and enhances stability by intelligently changing just one amino acid at a time while approximately preserving the original 3D structure.',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     const SizedBox(height: 24),

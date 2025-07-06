@@ -21,7 +21,7 @@ class ScientificBackgroundSection extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'Scientific Foundation',
+            'Key Strengths',
             style: Theme.of(context).textTheme.headlineMedium,
             textAlign: TextAlign.center,
           ),
@@ -30,41 +30,44 @@ class ScientificBackgroundSection extends StatelessWidget {
             constraints: const BoxConstraints(maxWidth: 1000),
             child: Column(
               children: [
-                Text(
-                  'Our protein stability enhancement tool is built on rigorous scientific research and advanced machine learning methodologies. The underlying model has been trained on comprehensive datasets and validated through extensive testing.',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                  textAlign: TextAlign.center,
-                ),
-
                 const SizedBox(height: 40),
 
                 // Research highlights cards
                 Row(
                   children: [
                     Expanded(
-                      child: _buildResearchCard(
-                        Icons.psychology,
-                        'Original Custom-Trained Model',
-                        'Developed from scratch and fine-tuned on curated datasets.',
-                        const Color(0xFF1a237e),
+                      child: SizedBox(
+                        height: 210,
+                        child: _buildResearchCard(
+                          Icons.psychology,
+                          'Original Custom-Trained Model',
+                          'Developed from scratch and fine-tuned on curated datasets.',
+                          const Color(0xFF1a237e),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 32),
                     Expanded(
-                      child: _buildResearchCard(
-                        Icons.science,
-                        'Whith no Structural Disruption',
-                        'Designed to enhance thermal stability through point mutations while preserving the original protein’s functionality and 3D structure.',
-                        const Color(0xFF3949ab),
+                      child: SizedBox(
+                        height: 210,
+                        child: _buildResearchCard(
+                          Icons.science,
+                          'Keep Same Functionality',
+                          'Designed to enhance thermal stability while preserving the original protein\'s functionality.',
+                          const Color(0xFF3949ab),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 32),
                     Expanded(
-                      child: _buildResearchCard(
-                        Icons.dataset,
-                        'Comprehensive Data',
-                        'Trained on extensive protein stability datasets',
-                        const Color(0xFF5c6bc0),
+                      child: SizedBox(
+                        height: 210,
+                        child: _buildResearchCard(
+                          Icons.dataset,
+                          'Easy to Use',
+                          'Just paste your protein sequence — the tool automatically analyzes and suggests more stable variant.',
+                          const Color(0xFF5c6bc0),
+                        ),
                       ),
                     ),
                   ],

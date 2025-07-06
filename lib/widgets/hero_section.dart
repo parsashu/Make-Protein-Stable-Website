@@ -57,7 +57,7 @@ class HeroSection extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     scrollController.animateTo(
-                      1400,
+                      2100,
                       duration: const Duration(seconds: 1),
                       curve: Curves.easeInOut,
                     );

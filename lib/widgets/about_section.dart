@@ -8,6 +8,7 @@ class AboutSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(80),
       color: Colors.grey[50],
+      constraints: const BoxConstraints(minWidth: 1), // Add minimum width constraint
       child: Column(
         children: [
           Text(
@@ -42,6 +43,7 @@ class AboutSection extends StatelessWidget {
                     // Description card
                     Container(
                       padding: const EdgeInsets.all(32),
+                      constraints: const BoxConstraints(minWidth: 1), // Add minimum width constraint
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
@@ -103,6 +105,7 @@ class AboutSection extends StatelessWidget {
                     // How it works section
                     Container(
                       padding: const EdgeInsets.all(32),
+                      constraints: const BoxConstraints(minWidth: 1), // Add minimum width constraint
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
@@ -172,6 +175,7 @@ class AboutSection extends StatelessWidget {
                     // Performance metric
                     Container(
                       padding: const EdgeInsets.all(24),
+                      constraints: const BoxConstraints(minWidth: 1), // Add minimum width constraint
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
@@ -245,8 +249,8 @@ class AboutSection extends StatelessWidget {
               // Right side image
               Expanded(
                 flex: 2,
-                child: FittedBox(
-                  fit: BoxFit.contain,
+                child: ConstrainedBox( // Replace FittedBox with ConstrainedBox
+                  constraints: const BoxConstraints(minWidth: 200), // Set minimum width
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
@@ -276,6 +280,7 @@ class AboutSection extends StatelessWidget {
                             quarterTurns: 3,
                             child: Image.asset(
                               'assets/images/image.png',
+                              fit: BoxFit.cover, // Add fit property
                             ),
                           ),
                           // Overlay gradient

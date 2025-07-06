@@ -16,6 +16,7 @@ class ProteinStabilityHomePage extends StatefulWidget {
 class _ProteinStabilityHomePageState extends State<ProteinStabilityHomePage> {
   final TextEditingController _sequenceController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  final GlobalKey _toolSectionKey = GlobalKey();
 
   @override
   void dispose() {
@@ -33,7 +34,10 @@ class _ProteinStabilityHomePageState extends State<ProteinStabilityHomePage> {
         child: Column(
           children: [
             // Hero Section
-            HeroSection(scrollController: _scrollController),
+            HeroSection(
+              scrollController: _scrollController,
+              toolSectionKey: _toolSectionKey,
+            ),
 
             // About Section
             const AboutSection(),
@@ -42,7 +46,10 @@ class _ProteinStabilityHomePageState extends State<ProteinStabilityHomePage> {
             const ScientificBackgroundSection(),
 
             // Tool Section
-            ToolSection(sequenceController: _sequenceController),
+            ToolSection(
+              key: _toolSectionKey,
+              sequenceController: _sequenceController,
+            ),
 
             // Footer
             const FooterSection(),

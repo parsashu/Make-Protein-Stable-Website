@@ -122,6 +122,7 @@ class _ToolSectionState extends State<ToolSection> {
                     border: Border.all(color: Colors.grey[300]!),
                   ),
                   child: TextField(
+                    key: const Key('protein_sequence_input'),
                     controller: widget.sequenceController,
                     maxLines: 6,
                     decoration: InputDecoration(

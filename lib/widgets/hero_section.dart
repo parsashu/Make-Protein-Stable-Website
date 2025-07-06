@@ -3,10 +3,12 @@ import '../painters/protein_pattern_painter.dart';
 
 class HeroSection extends StatelessWidget {
   final ScrollController scrollController;
+  final GlobalKey toolSectionKey;
 
   const HeroSection({
     super.key,
     required this.scrollController,
+    required this.toolSectionKey,
   });
 
   @override
@@ -56,10 +58,13 @@ class HeroSection extends StatelessWidget {
                 const SizedBox(height: 32),
                 ElevatedButton(
                   onPressed: () {
-                    scrollController.animateTo(
-                      2100,
-                      duration: const Duration(seconds: 1),
+                    // Use Scrollable.ensureVisible for precise scrolling to the tool section
+                    Scrollable.ensureVisible(
+                      toolSectionKey.currentContext!,
+                      duration: const Duration(milliseconds: 1200),
                       curve: Curves.easeInOut,
+                      alignment:
+                          0.1, // Scroll to show text input near top of viewport
                     );
                   },
                   style: ElevatedButton.styleFrom(

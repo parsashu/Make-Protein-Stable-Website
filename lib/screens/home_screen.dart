@@ -27,6 +27,9 @@ class _ProteinStabilityHomePageState extends State<ProteinStabilityHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final isSmallScreen = screenSize.width < 768;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(

@@ -13,8 +13,15 @@ class HeroSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final isSmallScreen = screenSize.width < 768;
+    final isMediumScreen = screenSize.width < 1024;
+
+    // Responsive height
+    final heroHeight = isSmallScreen ? 500.0 : (isMediumScreen ? 550.0 : 600.0);
+
     return Container(
-      height: 600,
+      height: heroHeight,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -37,48 +44,67 @@ class HeroSection extends StatelessWidget {
 
           // Content
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Make Protein Stable',
-                  style: Theme.of(context).textTheme.headlineLarge,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 16),
-                const Text(
-                  'AI-Powered Protein Stability Enhancement',
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.white70,
-                    fontWeight: FontWeight.w300,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: isSmallScreen ? 20 : 40,
+                vertical: 20,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Make Protein Stable',
+                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                          fontSize:
+                              isSmallScreen ? 28 : (isMediumScreen ? 32 : 36),
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 32),
-                ElevatedButton(
-                  onPressed: () {
-                    // Use Scrollable.ensureVisible for precise scrolling to the tool section
-                    Scrollable.ensureVisible(
-                      toolSectionKey.currentContext!,
-                      duration: const Duration(milliseconds: 1200),
-                      curve: Curves.easeInOut,
-                      alignment:
-                          0.1, // Scroll to show text input near top of viewport
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: const Color(0xFF1a237e),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 20),
+                  SizedBox(height: isSmallScreen ? 12 : 16),
+                  Text(
+                    'AI-Powered Protein Stability Enhancement',
+                    style: TextStyle(
+                      fontSize: isSmallScreen ? 16 : (isMediumScreen ? 20 : 24),
+                      color: Colors.white70,
+                      fontWeight: FontWeight.w300,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  child: const Text(
-                    'Try It Now',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  SizedBox(height: isSmallScreen ? 24 : 32),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Use Scrollable.ensureVisible for precise scrolling to the tool section
+                      Scrollable.ensureVisible(
+                        toolSectionKey.currentContext!,
+                        duration: const Duration(milliseconds: 1200),
+                        curve: Curves.easeInOut,
+                        alignment:
+                            0.1, // Scroll to show text input near top of viewport
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: const Color(0xFF1a237e),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: isSmallScreen ? 32 : 40,
+                        vertical: isSmallScreen ? 16 : 20,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: Text(
+                      'Try It Now',
+                      style: TextStyle(
+                        fontSize: isSmallScreen ? 16 : 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

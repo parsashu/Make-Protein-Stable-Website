@@ -13,10 +13,14 @@ class ResultsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final isSmallScreen = screenSize.width < 768;
+    final isMediumScreen = screenSize.width < 1024;
+
     if (isLoading) {
       return Container(
         margin: const EdgeInsets.only(top: 24),
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(isSmallScreen ? 16 : 24),
         decoration: BoxDecoration(
           color: Colors.blue[50],
           borderRadius: BorderRadius.circular(16),
@@ -28,11 +32,11 @@ class ResultsWidget extends StatelessWidget {
         child: Column(
           children: [
             const CircularProgressIndicator(),
-            const SizedBox(height: 16),
+            SizedBox(height: isSmallScreen ? 12 : 16),
             Text(
               'Analyzing protein sequence...',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: isSmallScreen ? 14 : 16,
                 color: Colors.blue[800],
                 fontWeight: FontWeight.w500,
               ),
@@ -49,7 +53,7 @@ class ResultsWidget extends StatelessWidget {
     if (!result!.success) {
       return Container(
         margin: const EdgeInsets.only(top: 24),
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(isSmallScreen ? 16 : 24),
         decoration: BoxDecoration(
           color: Colors.red[50],
           borderRadius: BorderRadius.circular(16),
@@ -63,22 +67,22 @@ class ResultsWidget extends StatelessWidget {
             Icon(
               Icons.error,
               color: Colors.red[700],
-              size: 48,
+              size: isSmallScreen ? 40 : 48,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: isSmallScreen ? 12 : 16),
             Text(
               'Error',
               style: TextStyle(
-                fontSize: 18,
+                fontSize: isSmallScreen ? 16 : 18,
                 fontWeight: FontWeight.w600,
                 color: Colors.red[800],
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: isSmallScreen ? 6 : 8),
             Text(
               result!.error ?? 'Unknown error occurred',
               style: TextStyle(
-                fontSize: 14,
+                fontSize: isSmallScreen ? 12 : 14,
                 color: Colors.red[700],
               ),
               textAlign: TextAlign.center,
@@ -91,7 +95,7 @@ class ResultsWidget extends StatelessWidget {
     final data = result!.data!;
     return Container(
       margin: const EdgeInsets.only(top: 24),
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(isSmallScreen ? 16 : 24),
       decoration: BoxDecoration(
         color: Colors.green[50],
         borderRadius: BorderRadius.circular(16),
@@ -107,7 +111,7 @@ class ResultsWidget extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(isSmallScreen ? 6 : 8),
                 decoration: BoxDecoration(
                   color: Colors.green[100],
                   borderRadius: BorderRadius.circular(8),
@@ -115,92 +119,135 @@ class ResultsWidget extends StatelessWidget {
                 child: Icon(
                   Icons.check_circle,
                   color: Colors.green[700],
-                  size: 20,
+                  size: isSmallScreen ? 16 : 20,
                 ),
               ),
-              const SizedBox(width: 12),
-              Text(
-                'Improvement Results',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.green[800],
+              SizedBox(width: isSmallScreen ? 8 : 12),
+              Expanded(
+                child: Text(
+                  'Improvement Results',
+                  style: TextStyle(
+                    fontSize: isSmallScreen ? 16 : 20,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.green[800],
+                  ),
                 ),
               ),
             ],
           ),
 
-          const SizedBox(height: 20),
+          SizedBox(height: isSmallScreen ? 16 : 20),
 
-          // Results Grid
-          Row(
-            children: [
-              // Left Column
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          // Results Grid - responsive layout
+          isSmallScreen
+              ? Column(
                   children: [
-                    _buildResultItem(
-                      'Changed Position',
-                      '${data.changedPosition}',
-                      Colors.green[600]!,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildResultItem(
-                      'Original Amino Acid',
-                      data.originalAminoAcid,
-                      Colors.green[600]!,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildResultItem(
-                      'Changed Amino Acid',
-                      data.changedAminoAcid,
-                      Colors.green[600]!,
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(width: 32),
-
-              // Right Column
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildResultItem(
-                      'Stability Change (ΔTm)',
-                      '${data.tmChange > 0 ? '+' : ''}${data.tmChange.toStringAsFixed(2)}°C',
-                      Colors.green[700]!,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildResultItem(
-                      'Status',
-                      data.status,
-                      Colors.green[700]!,
-                    ),
-                    const SizedBox(height: 16),
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.green[100],
-                        borderRadius: BorderRadius.circular(8),
+                    _buildResultGroup('Position & Amino Acids', [
+                      _buildResultItem(
+                        'Changed Position',
+                        '${data.changedPosition}',
+                        Colors.green[600]!,
                       ),
-                      child: Row(
+                      _buildResultItem(
+                        'Original Amino Acid',
+                        data.originalAminoAcid,
+                        Colors.green[600]!,
+                      ),
+                      _buildResultItem(
+                        'Changed Amino Acid',
+                        data.changedAminoAcid,
+                        Colors.green[600]!,
+                      ),
+                    ]),
+                    const SizedBox(height: 20),
+                    _buildResultGroup('Stability Analysis', [
+                      _buildResultItem(
+                        'Stability Change (ΔTm)',
+                        '${data.tmChange > 0 ? '+' : ''}${data.tmChange.toStringAsFixed(2)}°C',
+                        Colors.green[700]!,
+                        note: 'Approximate value',
+                      ),
+                      _buildResultItem(
+                        'Status',
+                        data.status,
+                        Colors.green[700]!,
+                      ),
+                    ]),
+                  ],
+                )
+              : Row(
+                  children: [
+                    // Left Column
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(
-                            Icons.trending_up,
-                            color: Colors.green[700],
-                            size: 16,
+                          _buildResultItem(
+                            'Changed Position',
+                            '${data.changedPosition}',
+                            Colors.green[600]!,
                           ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              'Stability Enhanced',
-                              style: TextStyle(
-                                color: Colors.green[700],
-                                fontWeight: FontWeight.w600,
-                              ),
+                          SizedBox(height: isSmallScreen ? 12 : 16),
+                          _buildResultItem(
+                            'Original Amino Acid',
+                            data.originalAminoAcid,
+                            Colors.green[600]!,
+                          ),
+                          SizedBox(height: isSmallScreen ? 12 : 16),
+                          _buildResultItem(
+                            'Changed Amino Acid',
+                            data.changedAminoAcid,
+                            Colors.green[600]!,
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(width: isMediumScreen ? 24 : 32),
+
+                    // Right Column
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildResultItem(
+                            'Stability Change (ΔTm)',
+                            '${data.tmChange > 0 ? '+' : ''}${data.tmChange.toStringAsFixed(2)}°C',
+                            Colors.green[700]!,
+                            note: 'Approximate value',
+                          ),
+                          SizedBox(height: isSmallScreen ? 12 : 16),
+                          _buildResultItem(
+                            'Status',
+                            data.status,
+                            Colors.green[700]!,
+                          ),
+                          SizedBox(height: isSmallScreen ? 12 : 16),
+                          Container(
+                            padding: EdgeInsets.all(isSmallScreen ? 8 : 12),
+                            decoration: BoxDecoration(
+                              color: Colors.green[100],
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.trending_up,
+                                  color: Colors.green[700],
+                                  size: isSmallScreen ? 14 : 16,
+                                ),
+                                SizedBox(width: isSmallScreen ? 6 : 8),
+                                Expanded(
+                                  child: Text(
+                                    'Stability Enhanced',
+                                    style: TextStyle(
+                                      color: Colors.green[700],
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: isSmallScreen ? 12 : 14,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
@@ -208,108 +255,138 @@ class ResultsWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
 
-          const SizedBox(height: 24),
+          SizedBox(height: isSmallScreen ? 20 : 24),
 
           // Optimized Sequence
-          Column(
+          _buildSequenceSection(data, isSmallScreen),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildResultGroup(String title, List<Widget> items) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.green[200]!, width: 1),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: Colors.green[800],
+            ),
+          ),
+          const SizedBox(height: 12),
+          ...items.map((item) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: item,
+              )),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSequenceSection(data, bool isSmallScreen) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Final Optimized Sequence',
+          style: TextStyle(
+            fontSize: isSmallScreen ? 14 : 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.green[800],
+          ),
+        ),
+        SizedBox(height: isSmallScreen ? 6 : 8),
+        Container(
+          padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: Colors.green[200]!,
+              width: 1,
+            ),
+          ),
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Final Optimized Sequence',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.green[800],
+              // Mutation details
+              Container(
+                padding: EdgeInsets.all(isSmallScreen ? 6 : 8),
+                decoration: BoxDecoration(
+                  color: Colors.green[50],
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                      fontFamily: 'Courier',
+                      fontSize: isSmallScreen ? 10 : 12,
+                      color: Colors.black54,
+                    ),
+                    children: [
+                      const TextSpan(text: 'Mutation: '),
+                      TextSpan(
+                        text: data.originalAminoAcid,
+                        style: TextStyle(
+                          color: Colors.red[600],
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const TextSpan(text: ' → '),
+                      TextSpan(
+                        text: data.changedAminoAcid,
+                        style: TextStyle(
+                          color: Colors.green[600],
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: isSmallScreen ? 8 : 12),
+              // Final sequence
               Container(
-                padding: const EdgeInsets.all(16),
+                width: double.infinity,
+                padding: EdgeInsets.all(isSmallScreen ? 8 : 12),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.grey[50],
+                  borderRadius: BorderRadius.circular(6),
                   border: Border.all(
-                    color: Colors.green[200]!,
+                    color: Colors.grey[300]!,
                     width: 1,
                   ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Mutation details
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.green[50],
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: RichText(
-                        text: TextSpan(
-                          style: const TextStyle(
-                            fontFamily: 'Courier',
-                            fontSize: 12,
-                            color: Colors.black54,
-                          ),
-                          children: [
-                            const TextSpan(text: 'Mutation: '),
-                            TextSpan(
-                              text: data.originalAminoAcid,
-                              style: TextStyle(
-                                color: Colors.red[600],
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const TextSpan(text: ' → '),
-                            TextSpan(
-                              text: data.changedAminoAcid,
-                              style: TextStyle(
-                                color: Colors.green[600],
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
+                    Text(
+                      'Final Sequence:',
+                      style: TextStyle(
+                        fontSize: isSmallScreen ? 10 : 12,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey[700],
                       ),
                     ),
-                    const SizedBox(height: 12),
-                    // Final sequence
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[50],
-                        borderRadius: BorderRadius.circular(6),
-                        border: Border.all(
-                          color: Colors.grey[300]!,
-                          width: 1,
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Final Sequence:',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.grey[700],
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          SelectableText(
-                            data.optimizedSequence,
-                            style: const TextStyle(
-                              fontFamily: 'Courier',
-                              fontSize: 12,
-                              color: Colors.black87,
-                              height: 1.5,
-                            ),
-                          ),
-                        ],
+                    SizedBox(height: isSmallScreen ? 6 : 8),
+                    SelectableText(
+                      data.optimizedSequence,
+                      style: TextStyle(
+                        fontFamily: 'Courier',
+                        fontSize: isSmallScreen ? 10 : 12,
+                        color: Colors.black87,
+                        height: 1.5,
                       ),
                     ),
                   ],
@@ -317,12 +394,13 @@ class ResultsWidget extends StatelessWidget {
               ),
             ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
-  Widget _buildResultItem(String label, String value, Color color) {
+  Widget _buildResultItem(String label, String value, Color color,
+      {String? note}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -343,6 +421,15 @@ class ResultsWidget extends StatelessWidget {
             color: color,
           ),
         ),
+        if (note != null)
+          Text(
+            '($note)',
+            style: TextStyle(
+              fontSize: 10,
+              color: Colors.grey[500],
+              fontStyle: FontStyle.italic,
+            ),
+          ),
       ],
     );
   }

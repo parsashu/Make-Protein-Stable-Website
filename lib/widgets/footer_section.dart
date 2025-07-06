@@ -5,40 +5,87 @@ class FooterSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final isSmallScreen = screenSize.width < 768;
+    final isMediumScreen = screenSize.width < 1024;
+
+    // Responsive padding
+    final sectionPadding =
+        isSmallScreen ? 20.0 : (isMediumScreen ? 40.0 : 80.0);
+
     return Container(
-      padding: const EdgeInsets.all(40),
+      padding: EdgeInsets.all(sectionPadding),
       color: const Color(0xFF1a237e),
-      child: const Column(
-        children: [
-          Text(
-            'Make Protein Stable',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+      child: isSmallScreen
+          ? Column(
+              children: [
+                _buildFooterContent(isSmallScreen),
+                const SizedBox(height: 20),
+                _buildFooterBottom(isSmallScreen),
+              ],
+            )
+          : Row(
+              children: [
+                Expanded(
+                  child: _buildFooterContent(isSmallScreen),
+                ),
+                const SizedBox(width: 40),
+                _buildFooterBottom(isSmallScreen),
+              ],
             ),
+    );
+  }
+
+  Widget _buildFooterContent(bool isSmallScreen) {
+    return Column(
+      crossAxisAlignment:
+          isSmallScreen ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Make Protein Stable',
+          style: TextStyle(
+            fontSize: isSmallScreen ? 18 : 22,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
           ),
-          SizedBox(height: 16),
-          Text(
-            'Advancing protein science through AI-powered stability enhancement',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.white70,
-            ),
-            textAlign: TextAlign.center,
+          textAlign: isSmallScreen ? TextAlign.center : TextAlign.start,
+        ),
+        SizedBox(height: isSmallScreen ? 8 : 12),
+        Text(
+          'Enhancing protein stability through intelligent single amino acid modifications.',
+          style: TextStyle(
+            fontSize: isSmallScreen ? 14 : 16,
+            color: Colors.white70,
           ),
-          SizedBox(height: 24),
-          Text(
-            'Contact: a.zshahidi91@gmail.com',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-            ),
-            textAlign: TextAlign.center,
+          textAlign: isSmallScreen ? TextAlign.center : TextAlign.start,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFooterBottom(bool isSmallScreen) {
+    return Column(
+      crossAxisAlignment:
+          isSmallScreen ? CrossAxisAlignment.center : CrossAxisAlignment.end,
+      children: [
+        Text(
+          'Developed by Protein Stability Lab',
+          style: TextStyle(
+            fontSize: isSmallScreen ? 12 : 14,
+            color: Colors.white70,
           ),
-        ],
-      ),
+          textAlign: isSmallScreen ? TextAlign.center : TextAlign.end,
+        ),
+        SizedBox(height: isSmallScreen ? 4 : 6),
+        Text(
+          '© 2024 All rights reserved',
+          style: TextStyle(
+            fontSize: isSmallScreen ? 10 : 12,
+            color: Colors.white.withOpacity(0.5),
+          ),
+          textAlign: isSmallScreen ? TextAlign.center : TextAlign.end,
+        ),
+      ],
     );
   }
 }

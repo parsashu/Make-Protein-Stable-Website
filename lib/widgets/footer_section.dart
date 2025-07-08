@@ -69,7 +69,7 @@ class FooterSection extends StatelessWidget {
           isSmallScreen ? CrossAxisAlignment.center : CrossAxisAlignment.end,
       children: [
         Text(
-          'Developed by Protein Stability Lab',
+          'Developed by Parsa Shahidi',
           style: TextStyle(
             fontSize: isSmallScreen ? 12 : 14,
             color: Colors.white70,
@@ -78,10 +78,10 @@ class FooterSection extends StatelessWidget {
         ),
         SizedBox(height: isSmallScreen ? 4 : 6),
         Text(
-          '© 2024 All rights reserved',
+          'a.zshahidi91@gmail.com',
           style: TextStyle(
-            fontSize: isSmallScreen ? 10 : 12,
-            color: Colors.white.withOpacity(0.5),
+            fontSize: isSmallScreen ? 12 : 14,
+            color: Colors.white70,
           ),
           textAlign: isSmallScreen ? TextAlign.center : TextAlign.end,
         ),

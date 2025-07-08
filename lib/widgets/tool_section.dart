@@ -136,12 +136,9 @@ class _ToolSectionState extends State<ToolSection> {
                   ),
                   child: TextField(
                     key: const Key('protein_sequence_input'),
-                    controller: widget.sequenceController,
                     maxLines: isSmallScreen ? 4 : 6,
                     decoration: InputDecoration(
-                      hintText: isSmallScreen
-                          ? 'Enter your protein sequences here...\n\nExample:\nMGDVEKGKKIFVQKCAQCHTVEKGGKHKTGPNLHGLFGRKTGQAPGFTYTDANKNKGITWKEETLMEYLENPKKYIPGTKMIFAGIKKKTEREDLIAYLKKATNE'
-                          : 'Enter your protein sequences here...\n\n\n\nExample:\nMGDVEKGKKIFVQKCAQCHTVEKGGKHKTGPNLHGLFGRKTGQAPGFTYTDANKNKGITWKEETLMEYLENPKKYIPGTKMIFAGIKKKTEREDLIAYLKKATNE',
+                      hintText: 'Enter your protein sequences here...',
                       hintStyle: TextStyle(
                         color: Colors.grey[500],
                         fontFamily: 'Courier',
@@ -154,6 +151,9 @@ class _ToolSectionState extends State<ToolSection> {
                       fontFamily: 'Courier',
                       fontSize: isSmallScreen ? 12 : 14,
                     ),
+                    controller: widget.sequenceController
+                      ..text =
+                          'MGDVEKGKKIFVQKCAQCHTVEKGGKHKTGPNLHGLFGRKTGQAPGFTYTDANKNKGITWKEETLMEYLENPKKYIPGTKMIFAGIKKKTEREDLIAYLKKATNE',
                   ),
                 ),
                 SizedBox(height: isSmallScreen ? 20 : 24),

@@ -2,7 +2,7 @@
 
 ### AI-Powered Protein Stability Enhancement Tool
 
-https://github.com/user-attachments/assets/WebSite.mp4
+![App Demo](assets/Website.gif)
 
 ---
 

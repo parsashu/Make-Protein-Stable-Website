@@ -78,7 +78,7 @@ class FooterSection extends StatelessWidget {
         ),
         SizedBox(height: isSmallScreen ? 4 : 6),
         Text(
-          'a.zshahidi91@gmail.com',
+          'mr.parsa.shahidi@gmail.com',
           style: TextStyle(
             fontSize: isSmallScreen ? 12 : 14,
             color: Colors.white70,

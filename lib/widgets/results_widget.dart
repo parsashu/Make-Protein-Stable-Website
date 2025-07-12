@@ -214,7 +214,7 @@ class ResultsWidget extends StatelessWidget {
                             'Stability Change (ΔTm)',
                             '${data.tmChange > 0 ? '+' : ''}${data.tmChange.toStringAsFixed(2)}°C',
                             Colors.green[700]!,
-                            note: 'Approximate value',
+                            note: 'Not accurate',
                           ),
                           SizedBox(height: isSmallScreen ? 12 : 16),
                           _buildResultItem(

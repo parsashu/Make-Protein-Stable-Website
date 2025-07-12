@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl = 'https://ml-on-proteins.onrender.com';
+  static const String baseUrl = 'http://localhost:5000';
 
   static Future<Map<String, dynamic>?> improveProteinStability({
     required String proteinSequence,

@@ -19,16 +19,33 @@ class _ToolSectionState extends State<ToolSection> {
   bool _isLoading = false;
   ProteinImprovementResult? _result;
 
+  // Controllers for new text fields
+  final TextEditingController _phController = TextEditingController(text: '6');
+  final TextEditingController _asaController = TextEditingController(text: '9');
+
+  // Checkbox states
+  bool _coilChecked = true; // Default to true
+  bool _helixChecked = false;
+  bool _sheetChecked = false;
+  bool _turnChecked = false;
+
+  @override
+  void dispose() {
+    _phController.dispose();
+    _asaController.dispose();
+    super.dispose();
+  }
+
   // Default example result to show before user submits
   ProteinImprovementResult get _defaultResult => ProteinImprovementResult(
         success: true,
         data: ProteinData(
-          changedPosition: 1,
-          originalAminoAcid: 'M',
-          changedAminoAcid: 'F',
-          tmChange: 12.08,
+          changedPosition: 19,
+          originalAminoAcid: 'H',
+          changedAminoAcid: 'E',
+          tmChange: 10.84,
           optimizedSequence:
-              'FGDVEKGKKIFVQKCAQCHTVEKGGKHKTGPNLHGLFGRKTGQAPGFTYTDANKNKGITWKEETLMEYLENPKKYIPGTKMIFAGIKKKTEREDLIAYLKKATNE',
+              'MGDVEKGKKIFVQKCAQCETVEKGGKHKTGPNLHGLFGRKTGQAPGFTYTDANKNKGITWKEETLMEYLENPKKYIPGTKMIFAGIKKKTEREDLIAYLKKATNE',
           status: 'Improved',
         ),
       );
@@ -50,8 +67,26 @@ class _ToolSectionState extends State<ToolSection> {
     });
 
     try {
+      // Parse pH and ASA values with defaults
+      double ph = 7.0; // Default when null
+      double asa = -1.0; // Default when null
+
+      if (_phController.text.isNotEmpty) {
+        ph = double.tryParse(_phController.text) ?? 7.0;
+      }
+
+      if (_asaController.text.isNotEmpty) {
+        asa = double.tryParse(_asaController.text) ?? -1.0;
+      }
+
       final response = await ApiService.improveProteinStability(
         proteinSequence: widget.sequenceController.text.trim(),
+        ph: ph,
+        asa: asa,
+        coil: _coilChecked ? 1 : 0,
+        helix: _helixChecked ? 1 : 0,
+        sheet: _sheetChecked ? 1 : 0,
+        turn: _turnChecked ? 1 : 0,
       );
 
       if (response != null) {
@@ -157,6 +192,127 @@ class _ToolSectionState extends State<ToolSection> {
                   ),
                 ),
                 SizedBox(height: isSmallScreen ? 20 : 24),
+
+                // pH and ASA input fields
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Environment pH',
+                            style:
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: isSmallScreen ? 14 : 16,
+                                    ),
+                          ),
+                          SizedBox(height: isSmallScreen ? 8 : 12),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: Colors.grey[300]!),
+                            ),
+                            child: TextField(
+                              controller: _phController,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding:
+                                    EdgeInsets.all(isSmallScreen ? 12 : 16),
+                              ),
+                              style: TextStyle(
+                                fontSize: isSmallScreen ? 14 : 16,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: isSmallScreen ? 16 : 20),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'ASA',
+                            style:
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: isSmallScreen ? 14 : 16,
+                                    ),
+                          ),
+                          SizedBox(height: isSmallScreen ? 8 : 12),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: Colors.grey[300]!),
+                            ),
+                            child: TextField(
+                              controller: _asaController,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding:
+                                    EdgeInsets.all(isSmallScreen ? 12 : 16),
+                              ),
+                              style: TextStyle(
+                                fontSize: isSmallScreen ? 14 : 16,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: isSmallScreen ? 20 : 24),
+
+                // Protein structure checkboxes
+                Text(
+                  'Protein Secondary Structure',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        fontSize: isSmallScreen ? 14 : 16,
+                      ),
+                ),
+                SizedBox(height: isSmallScreen ? 12 : 16),
+
+                Wrap(
+                  spacing: isSmallScreen ? 8 : 16,
+                  runSpacing: isSmallScreen ? 8 : 12,
+                  children: [
+                    _buildCheckbox(
+                      'Coil',
+                      _coilChecked,
+                      (value) => setState(() => _coilChecked = value ?? false),
+                      isSmallScreen,
+                    ),
+                    _buildCheckbox(
+                      'Helix',
+                      _helixChecked,
+                      (value) => setState(() => _helixChecked = value ?? false),
+                      isSmallScreen,
+                    ),
+                    _buildCheckbox(
+                      'Sheet',
+                      _sheetChecked,
+                      (value) => setState(() => _sheetChecked = value ?? false),
+                      isSmallScreen,
+                    ),
+                    _buildCheckbox(
+                      'Turn',
+                      _turnChecked,
+                      (value) => setState(() => _turnChecked = value ?? false),
+                      isSmallScreen,
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: isSmallScreen ? 20 : 24),
+
                 Center(
                   child: ElevatedButton(
                     onPressed: _isLoading ? null : _improveSequence,
@@ -193,6 +349,31 @@ class _ToolSectionState extends State<ToolSection> {
                   isLoading: _isLoading,
                 ),
               ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCheckbox(String label, bool value, ValueChanged<bool?> onChanged,
+      bool isSmallScreen) {
+    return SizedBox(
+      width: isSmallScreen ? 100 : 120,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Checkbox(
+            value: value,
+            onChanged: onChanged,
+            activeColor: Theme.of(context).primaryColor,
+          ),
+          Expanded(
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: isSmallScreen ? 14 : 16,
+              ),
             ),
           ),
         ],

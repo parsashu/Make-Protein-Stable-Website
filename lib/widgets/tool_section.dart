@@ -18,6 +18,7 @@ class ToolSection extends StatefulWidget {
 class _ToolSectionState extends State<ToolSection> {
   bool _isLoading = false;
   ProteinImprovementResult? _result;
+  bool _hasInitializedSequence = false;
 
   // Controllers for new text fields
   final TextEditingController _phController = TextEditingController(text: '6');
@@ -30,6 +31,17 @@ class _ToolSectionState extends State<ToolSection> {
   bool _turnChecked = false;
 
   @override
+  void initState() {
+    super.initState();
+    // Set the example sequence only once when the widget is first created
+    if (!_hasInitializedSequence) {
+      widget.sequenceController.text =
+          'MGDVEKGKKIFVQKCAQCHTVEKGGKHKTGPNLHGLFGRKTGQAPGFTYT';
+      _hasInitializedSequence = true;
+    }
+  }
+
+  @override
   void dispose() {
     _phController.dispose();
     _asaController.dispose();
@@ -40,12 +52,12 @@ class _ToolSectionState extends State<ToolSection> {
   ProteinImprovementResult get _defaultResult => ProteinImprovementResult(
         success: true,
         data: ProteinData(
-          changedPosition: 19,
-          originalAminoAcid: 'H',
+          changedPosition: 3,
+          originalAminoAcid: 'D',
           changedAminoAcid: 'E',
-          tmChange: 10.84,
+          tmChange: 5.29,
           optimizedSequence:
-              'MGDVEKGKKIFVQKCAQCETVEKGGKHKTGPNLHGLFGRKTGQAPGFTYTDANKNKGITWKEETLMEYLENPKKYIPGTKMIFAGIKKKTEREDLIAYLKKATNE',
+              'MGEVEKGKKIFVQKCAQCHTVEKGGKHKTGPNLHGLFGRKTGQAPGFTYT',
           status: 'Improved',
         ),
       );
@@ -186,9 +198,7 @@ class _ToolSectionState extends State<ToolSection> {
                       fontFamily: 'Courier',
                       fontSize: isSmallScreen ? 12 : 14,
                     ),
-                    controller: widget.sequenceController
-                      ..text =
-                          'MGDVEKGKKIFVQKCAQCHTVEKGGKHKTGPNLHGLFGRKTGQAPGFTYTDANKNKGITWKEETLMEYLENPKKYIPGTKMIFAGIKKKTEREDLIAYLKKATNE',
+                    controller: widget.sequenceController,
                   ),
                 ),
                 SizedBox(height: isSmallScreen ? 20 : 24),

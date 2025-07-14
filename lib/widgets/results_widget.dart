@@ -41,6 +41,16 @@ class ResultsWidget extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
+            SizedBox(height: isSmallScreen ? 8 : 12),
+            Text(
+              'This may take a few moments as we process your sequence',
+              style: TextStyle(
+                fontSize: isSmallScreen ? 12 : 14,
+                color: Colors.blue[600],
+                fontWeight: FontWeight.w400,
+              ),
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       );

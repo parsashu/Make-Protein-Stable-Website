@@ -119,7 +119,7 @@ class _ToolSectionState extends State<ToolSection> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
-                'Failed to connect to the API. Please make sure the server is running.'),
+                'Failed to connect to the API. Please make sure you are using a VPN.'),
             backgroundColor: Colors.red,
           ),
         );

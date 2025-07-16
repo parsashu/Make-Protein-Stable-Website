@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl = 'https://stable-protein.subnitro.pro';
+  static const String baseUrl = 'https://stable-protein.n-cpanel.xyz';
 
   static Future<Map<String, dynamic>?> improveProteinStability({
     required String proteinSequence,
